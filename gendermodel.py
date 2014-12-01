@@ -30,15 +30,19 @@ proportion_survivors = number_survived / number_passengers
 
 # I can now find the stats of all the women on board,
 # by making an array that lists True/False whether each row is female
-women_only_stats = data[0::,4] == "female" 	# This finds where all the women are
-men_only_stats = data[0::,4] != "female" 	# This finds where all the men are (note != means 'not equal')
-
+#women_only_stats = data[0::,4] == "female" 	# This finds where all the women are
+women_only_stats = ((data[0::,4] == "female") & (data[0::,5] >12) ) 	# This finds where all the women are
+#men_only_stats = data[0::,4] != "female" 	# This finds where all the men are (note != means 'not equal')
+men_only_stats = ((data[0::,4] != "female") & (data[0::,5] >12) ) 
+#women_only_stats = (data[0::,4] == "female" ) 	# This finds where all the women are
 # I can now filter the whole data, to find statistics for just women, by just placing
 # women_only_stats as a "mask" on my full data -- Use it in place of the '0::' part of the array index. 
 # You can test it by placing it there, and requesting column index [4], and the output should all read 'female'
 # e.g. try typing this:   data[women_only_stats,4]
 women_onboard = data[women_only_stats,1].astype(np.float)
 men_onboard = data[men_only_stats,1].astype(np.float)
+print "Women on board: \n"
+print women_onboard
 
 # and derive some statistics about them
 proportion_women_survived = np.sum(women_onboard) / np.size(women_onboard)
